@@ -1,4 +1,5 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿function getEmployeeInfo() {
+    var id = $('#employeesList').val();
 
-// Write your JavaScript code.
+    $('#employeeInfoBlock').load('/Employees/GetEmployeeInfo', { id: id});
+}

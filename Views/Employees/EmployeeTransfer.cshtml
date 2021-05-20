@@ -1,0 +1,45 @@
+﻿@model HumanResourcesDepartment.ViewModels.EmployeeTransferViewModel
+
+<h1>Перевод сотрудника</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EmployeeTransfer">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="EmployeeId" />
+            
+            <div class="form-group">
+                <label asp-for="NewPostId" class="control-label"></label>
+                <select asp-for="NewPostId" class="form-control" asp-items="ViewBag.PostId"></select>
+                <span asp-validation-for="NewPostId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewDepartmentId" class="control-label"></label>
+                <select asp-for="NewDepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
+                <span asp-validation-for="NewDepartmentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewSalary" class="control-label"></label>
+                <input asp-for="NewSalary" class="form-control" />
+                <span asp-validation-for="NewSalary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfTransfer" class="control-label"></label>
+                <input asp-for="DateOfTransfer" class="form-control" />
+                <span asp-validation-for="DateOfTransfer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

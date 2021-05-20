@@ -1,27 +1,27 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HumanResourcesDepartment.Models
+namespace HumanResourcesDepartment.ViewModels
 {
-    public class Employee
+    public class LaborContractViewModel
     {
-        public int Id { get; set; }
         public string FirstName { get; set; }
         public string Surname { get; set; }
         public string Patronymic { get; set; }
         public string PhoneNumber { get; set; }
         public string PassportID { get; set; }
         public DateTime DOB { get; set; }
-        public int PictureId { get; set; }
-        public Picture Picture { get; set; }
         public int DepartmentId { get; set; }
-        public Department Department { get; set; }
         public int PostId { get; set; }
-        public Post Post { get; set; }
         public string Experience { get; set; }
+        public virtual IFormFile Image { get; set; }
+        public string CompanyName { get; set; }
+        public DateTime DateOfPreparation { get; set; }
+        public DateTime DateOfAdoption { get; set; }
         public float Salary { get; set; }
-        public string GetFullName() => Surname + " " + FirstName[0] + "." + Patronymic[0] + ".";
+        public string Base { get; set; }
     }
 }

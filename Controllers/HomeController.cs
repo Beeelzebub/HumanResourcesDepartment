@@ -23,7 +23,7 @@ namespace HumanResourcesDepartment.Controllers
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Login", "Account");
 
-            return View();
+            return RedirectToAction("Index", "Employees"); ;
         }
 
         public IActionResult Privacy()

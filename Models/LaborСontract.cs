@@ -15,6 +15,5 @@ namespace HumanResourcesDepartment.Models
         public DateTime DateOfAdoption { get; set; }
         public float Salary { get; set; }
         public string Base { get; set; }
-
     }
 }
