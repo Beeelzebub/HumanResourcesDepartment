@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HumanResourcesDepartment.Models
 {
-    public class Transfer : ActionInfo
+    public class Transfer : Action
     {
         public int Id { get; set; }
         public int OldDepartmentId { get; set; }
@@ -16,6 +16,10 @@ namespace HumanResourcesDepartment.Models
         public DateTime DateOfTransfer { get; set; }
         public int EmployeeId { get; set; }
         public float NewSalary { get; set; }
-        public Employee Employee { get; set; }
+        public override Employee Employee { get; set; }
+
+
+        public override string GetActionName() => "Перевод";
+        public override string GetDescription() => "fsd";
     }
 }

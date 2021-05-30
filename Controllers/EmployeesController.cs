@@ -8,15 +8,18 @@ using Microsoft.EntityFrameworkCore;
 using HumanResourcesDepartment.Data;
 using HumanResourcesDepartment.Models;
 using HumanResourcesDepartment.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace HumanResourcesDepartment.Controllers
 {
     public class EmployeesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public EmployeesController(ApplicationDbContext context)
+        public EmployeesController(ApplicationDbContext context, UserManager<User> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
@@ -24,47 +27,6 @@ namespace HumanResourcesDepartment.Controllers
         {
             var applicationDbContext = _context.Employees;
             return View(await applicationDbContext.ToListAsync());
-        }
-
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var employee = await _context.Employees
-                .Include(e => e.Department)
-                .Include(e => e.Picture)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            return View(employee);
-        }
-
-        public IActionResult Create()
-        {
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Id");
-            ViewData["PictureId"] = new SelectList(_context.Pictures, "Id", "Id");
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,Surname,Patronymic,PhoneNumber,PassportID,DOB,PictureId,MaritalStatusId,DepartmentId,Experience")] Employee employee)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(employee);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Id", employee.DepartmentId);
-            ViewData["PictureId"] = new SelectList(_context.Pictures, "Id", "Id", employee.PictureId);
-            return View(employee);
         }
 
         public async Task<IActionResult> GetEmployeeInfo(int id)
@@ -129,35 +91,6 @@ namespace HumanResourcesDepartment.Controllers
             }
 
             return PartialView(model);
-        }
-
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var employee = await _context.Employees
-                .Include(e => e.Department)
-                .Include(e => e.Picture)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            return View(employee);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var employee = await _context.Employees.FindAsync(id);
-            _context.Employees.Remove(employee);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> EmployeeDismissal(int id)

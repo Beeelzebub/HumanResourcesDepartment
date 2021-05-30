@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HumanResourcesDepartment.Models
 {
-    public class TimeSheet : ActionInfo
+    public class TimeSheet : Action
     {
         private static string[] MonthName = 
             { 
@@ -16,7 +16,7 @@ namespace HumanResourcesDepartment.Models
             };
         public int Id { get; set; }
         public int EmployeeId { get; set; }
-        public Employee Employee { get; set; }
+        public override Employee Employee { get; set; }
         public int NumberOfWorkingDays { get; set; }
         public int NumberOfWorkingHours { get; set; }
         public int NumberOfDaysOff { get; set; }
@@ -107,6 +107,8 @@ namespace HumanResourcesDepartment.Models
         }
 
         public string GetDateString() => MonthName[Month - 1] + " " + Year;
+        public override string GetActionName() => "Изменение табеля рабочего времени";
+        public override string GetDescription() => "fsd";
 
         public TimeSheet()
         {

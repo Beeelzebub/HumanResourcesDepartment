@@ -1,0 +1,81 @@
+﻿@model IEnumerable<HumanResourcesDepartment.Models.Action>
+
+<div class="row">
+    <div class="col-2">
+        <form id="actionsFilterForm">
+            <div class="form-group">
+                <label class="control-label">Сотрудник</label>
+                <select name="EmployeeId" class="form-control" asp-items="ViewBag.EmployeesId"></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Действие</label>
+                <select name="Action" class="form-control">
+                    <option value="0">все</option>
+                    <option value="1">Новый сотрудник</option>
+                    <option value="2">Табель рабочего вр.</option>
+                    <option value="3">Увольнение</option>
+                    <option value="4">Командировка</option>
+                    <option value="5">Больничный</option>
+                    <option value="6">Перевод</option>
+                </select>
+            </div>
+            <div class="form-check">
+                <input checked type="checkbox" class="form-check-input" id="allTimeCheckbox">
+                <label class="form-check-label" for="allTimeCheckbox">За всё время</label>
+            </div>
+
+            <div class="form-group">
+                <label for="actionDate" class="control-label">Дата</label>
+                <input id="actionDate" type="date" class="form-control" disabled />
+            </div>
+            <a class="btn btn-outline-primary">Применить</a>
+        </form>
+    </div>
+    <div class="col-10">
+        <div id="actionsBlock">
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            Действие
+                        </th>
+                        <th>
+                            Сотрудник
+                        </th>
+                        <th>
+                            Описание
+                        </th>
+                        <th>
+                            Дата
+                        </th>
+                        <th>
+                            Кадровик
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @item.GetActionName()
+                            </td>
+                            <td>
+                                @item.Employee.GetFullName()
+                            </td>
+                            <td>
+                                @item.GetDescription()
+                            </td>
+                            <td>
+                                @item.DateOfAction
+                            </td>
+                            <td>
+                                @item.HRManager.GetFullName()
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -8,14 +8,18 @@ using Microsoft.EntityFrameworkCore;
 using HumanResourcesDepartment.Data;
 using HumanResourcesDepartment.Models;
 using HumanResourcesDepartment.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace HumanResourcesDepartment.Controllers
 {
     public class TimeSheetsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public TimeSheetsController(ApplicationDbContext context)
+        private readonly UserManager<User> _userManager;
+
+        public TimeSheetsController(ApplicationDbContext context, UserManager<User> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
