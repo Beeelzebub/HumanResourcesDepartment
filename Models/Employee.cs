@@ -10,6 +10,7 @@ namespace HumanResourcesDepartment.Models
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string Surname { get; set; }
+        public bool IsDismissed { get; set; }
         public string Patronymic { get; set; }
         public string PhoneNumber { get; set; }
         public string PassportID { get; set; }

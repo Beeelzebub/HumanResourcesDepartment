@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace HumanResourcesDepartment.Models
 {
-    public class Dismissal
+    public class Dismissal : ActionInfo
     {
         public int Id { get; set; }
         public int EmployeeId { get; set; }

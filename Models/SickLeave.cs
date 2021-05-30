@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace HumanResourcesDepartment.Models
 {
-    public class SickLeave
+    public class SickLeave : ActionInfo
     {
         public int Id { get; set; }
         public int EmployeeId { get; set; }

@@ -1,0 +1,10 @@
+﻿@model IEnumerable<HumanResourcesDepartment.Models.Employee>
+
+<select id="employeesList" class="w-100" multiple onchange="getEmployeeInfo()">
+    @foreach (var item in Model)
+    {
+        <option value="@item.Id">
+            @item.GetFullName()
+        </option>
+    }
+</select>

@@ -20,10 +20,7 @@ namespace HumanResourcesDepartment.Controllers
 
         public IActionResult Index()
         {
-            if (!User.Identity.IsAuthenticated)
-                return RedirectToAction("Login", "Account");
-
-            return RedirectToAction("Index", "Employees"); ;
+            return RedirectToAction("Index", "Management");
         }
 
         public IActionResult Privacy()

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace HumanResourcesDepartment.Models
 {
-    public class LaborСontract
+    public class LaborСontract : ActionInfo
     {
         public int Id { get; set; }
         public int EmployeeId { get; set; }

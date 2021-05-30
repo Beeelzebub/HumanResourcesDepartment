@@ -1,0 +1,40 @@
+﻿@model SickLeave
+
+<h1>Больничный</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EmployeeSickLeave">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="EmployeeId" />
+
+            <div class="form-group">
+                <label asp-for="SickLeaveStartDate" class="control-label"></label>
+                <input asp-for="SickLeaveStartDate" class="form-control" />
+                <span asp-validation-for="SickLeaveStartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SickLeaveEndDate" class="control-label"></label>
+                <input asp-for="SickLeaveEndDate" class="form-control" />
+                <span asp-validation-for="SickLeaveEndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SickLeaveReason" class="control-label"></label>
+                <input asp-for="SickLeaveReason" class="form-control" />
+                <span asp-validation-for="SickLeaveReason" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

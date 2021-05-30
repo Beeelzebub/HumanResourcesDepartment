@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HumanResourcesDepartment.Migrations
 {
-    public partial class wrgbhsdfxv : Migration
+    public partial class bvcsxdsfdfsdlkljmnoij : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -201,6 +201,7 @@ namespace HumanResourcesDepartment.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDismissed = table.Column<bool>(type: "bit", nullable: false),
                     Patronymic = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PassportID = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -326,6 +327,31 @@ namespace HumanResourcesDepartment.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TimeSheets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    NumberOfWorkingDays = table.Column<int>(type: "int", nullable: false),
+                    NumberOfWorkingHours = table.Column<int>(type: "int", nullable: false),
+                    NumberOfDaysOff = table.Column<int>(type: "int", nullable: false),
+                    Month = table.Column<int>(type: "int", nullable: false),
+                    Year = table.Column<int>(type: "int", nullable: false),
+                    InternalAttendanceMarks = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TimeSheets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TimeSheets_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Transfers",
                 columns: table => new
                 {
@@ -343,33 +369,9 @@ namespace HumanResourcesDepartment.Migrations
                 {
                     table.PrimaryKey("PK_Transfers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Transfers_Departments_NewDepartmentId",
-                        column: x => x.NewDepartmentId,
-                        principalTable: "Departments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Transfers_Departments_OldDepartmentId",
-                        column: x => x.OldDepartmentId,
-                        principalTable: "Departments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Transfers_Employees_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Transfers_Posts_NewPostId",
-                        column: x => x.NewPostId,
-                        principalTable: "Posts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Transfers_Posts_OldPostId",
-                        column: x => x.OldPostId,
-                        principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -394,50 +396,6 @@ namespace HumanResourcesDepartment.Migrations
                         principalTable: "Employees",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TimeSheets",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    NumberOfWorkingDays = table.Column<int>(type: "int", nullable: false),
-                    NumberOfDaysActuallyWorked = table.Column<int>(type: "int", nullable: false),
-                    NumberOfDaysOff = table.Column<int>(type: "int", nullable: false),
-                    Period = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    VacationId = table.Column<int>(type: "int", nullable: true),
-                    BusinessTripId = table.Column<int>(type: "int", nullable: true),
-                    SickLeaveId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TimeSheets", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TimeSheets_BusinessTrips_BusinessTripId",
-                        column: x => x.BusinessTripId,
-                        principalTable: "BusinessTrips",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TimeSheets_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TimeSheets_SickLeaves_SickLeaveId",
-                        column: x => x.SickLeaveId,
-                        principalTable: "SickLeaves",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TimeSheets_Vacations_VacationId",
-                        column: x => x.VacationId,
-                        principalTable: "Vacations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -540,49 +498,14 @@ namespace HumanResourcesDepartment.Migrations
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TimeSheets_BusinessTripId",
-                table: "TimeSheets",
-                column: "BusinessTripId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TimeSheets_EmployeeId",
                 table: "TimeSheets",
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TimeSheets_SickLeaveId",
-                table: "TimeSheets",
-                column: "SickLeaveId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TimeSheets_VacationId",
-                table: "TimeSheets",
-                column: "VacationId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Transfers_EmployeeId",
                 table: "Transfers",
                 column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Transfers_NewDepartmentId",
-                table: "Transfers",
-                column: "NewDepartmentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Transfers_NewPostId",
-                table: "Transfers",
-                column: "NewPostId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Transfers_OldDepartmentId",
-                table: "Transfers",
-                column: "OldDepartmentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Transfers_OldPostId",
-                table: "Transfers",
-                column: "OldPostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vacations_EmployeeId",
@@ -608,10 +531,16 @@ namespace HumanResourcesDepartment.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BusinessTrips");
+
+            migrationBuilder.DropTable(
                 name: "Dismissals");
 
             migrationBuilder.DropTable(
                 name: "LaborСontracts");
+
+            migrationBuilder.DropTable(
+                name: "SickLeaves");
 
             migrationBuilder.DropTable(
                 name: "TimeSheets");
@@ -620,19 +549,13 @@ namespace HumanResourcesDepartment.Migrations
                 name: "Transfers");
 
             migrationBuilder.DropTable(
+                name: "Vacations");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "BusinessTrips");
-
-            migrationBuilder.DropTable(
-                name: "SickLeaves");
-
-            migrationBuilder.DropTable(
-                name: "Vacations");
 
             migrationBuilder.DropTable(
                 name: "Employees");

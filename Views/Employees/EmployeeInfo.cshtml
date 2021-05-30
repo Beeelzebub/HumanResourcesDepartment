@@ -1,75 +1,102 @@
 ﻿@model Employee
 
-<div class="col-5">
-    <div class="row justify-content-center">
-        <img height="350" width="350" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Picture.Image))" alt="" />
+@if (Model == null)
+{
+    <span>Сотрудник не найден!</span>
+}
+else
+{
+    <div class="col-5">
+        <div class="row justify-content-center">
+            <img height="350" width="350" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Picture.Image))" alt="" />
+        </div>
+        @if (!Model.IsDismissed)
+        {
+            <div class="row m-3">
+                <a asp-action="EmployeeBusinessTrip" asp-route-id="@Model.Id" class="btn btn-outline-info btn-block">Командировка</a>
+            </div>
+            <div class="row m-3">
+                <a asp-action="EmployeeVacation" asp-route-id="@Model.Id" class="btn btn-outline-info btn-block">Отпуск</a>
+            </div>
+            <div class="row m-3">
+                <a asp-action="EmployeeSickLeave" asp-route-id="@Model.Id" class="btn btn-outline-info btn-block">Больничный</a>
+            </div>
+            <div class="row m-3">
+                <a asp-action="EmployeeTransfer" asp-route-id="@Model.Id" class="btn btn-outline-info btn-block">Перевод</a>
+            </div>
+            <div class="row m-3">
+                <a asp-controller="TimeSheets" asp-action="EmployeeTimeSheet" asp-route-id="@Model.Id" class="btn btn-outline-info btn-block">Табель рабочего времени</a>
+            </div>
+            <div class="row m-3">
+                <a asp-action="EmployeeDismissal" asp-route-id="@Model.Id" class="btn btn-outline-danger btn-block">Увольнение</a>
+            </div>
+        }
     </div>
-    <div class="row m-3">
-        <button class="btn btn-outline-info btn-block">Командировка</button>
+    <div class="col-7">
+        <div id="personalInfoBlock">
+            <h1>Личные данные <button onclick="EmployeeEdit(@Model.Id)" class="btn btn-link"><i class="fa fa-pencil"></i></button></h1>
+            <dl class="row">
+                <dt class="col-4">Фамилия</dt>
+                <dd class="col-8">
+                    <input value="@Model.Surname" disabled />
+                </dd>
+
+                <dt class="col-4">Имя</dt>
+                <dd class="col-8">
+                    <input value="@Model.FirstName" disabled />
+                </dd>
+
+                <dt class="col-4">Отчество</dt>
+                <dd class="col-8">
+                    <input value="@Model.Patronymic" disabled />
+                </dd>
+
+                <dt class="col-4">Дата рождения</dt>
+                <dd class="col-8">
+                    <input value="@Model.DOB.ToShortDateString()" disabled />
+                </dd>
+
+                <dt class="col-4">Номер паспорта</dt>
+                <dd class="col-8">
+                    <input value="@Model.PassportID" disabled />
+                </dd>
+
+                <dt class="col-4">Номер телефона</dt>
+                <dd class="col-8">
+                    <input value="@Model.PhoneNumber" disabled />
+                </dd>
+            </dl>
+        </div>
+        @if (Model.IsDismissed)
+        {
+            <h1 class="text-danger">Уволен</h1>
+        }
+        else
+        {
+            <h1>Профессиональные данные</h1>
+            <dl class="row">
+                <dt class="col-4">Табельный номер</dt>
+                <dd class="col-8">
+                    <input value="@Model.Id" disabled />
+                </dd>
+
+                <dt class="col-4">Отдел</dt>
+                <dd class="col-8">
+                    <input value="@Model.Department.Name" disabled />
+                </dd>
+
+                <dt class="col-4">Должность</dt>
+                <dd class="col-8">
+                    <input value="@Model.Post.PostName" disabled />
+                </dd>
+
+                <dt class="col-4">Оклад</dt>
+                <dd class="col-8">
+                    <input value="@Model.Salary бр." disabled />
+                </dd>
+
+            </dl>
+        }
+
     </div>
-    <div class="row m-3">
-        <button class="btn btn-outline-info btn-block">Отпуск</button>
-    </div>
-    <div class="row m-3">
-        <button class="btn btn-outline-info btn-block">Больничный</button>
-    </div>
-    <div class="row m-3">
-        <a asp-action="EmployeeTransfer" asp-route-id="@Model.Id" class="btn btn-outline-info btn-block">Перевод</a>
-    </div>
-    <div class="row m-3">
-        <button class="btn btn-outline-danger btn-block">Увольнение</button>
-    </div>
-</div>
-<div class="col-7">
-    <h1>Личные данные <button class="btn btn-link"><i class="fa fa-pencil"></i></button></h1>
-    <dl class="row">
-        <dt class="col-4">Фамилия</dt>
-        <dd class="col-8">
-            <input value="@Model.Surname" disabled />
-        </dd>
-
-        <dt class="col-4">Имя</dt>
-        <dd class="col-8">
-            <input value="@Model.FirstName" disabled />
-        </dd>
-
-        <dt class="col-4">Отчество</dt>
-        <dd class="col-8">
-            <input value="@Model.Patronymic" disabled />
-        </dd>
-
-        <dt class="col-4">Дата рождения</dt>
-        <dd class="col-8">
-            <input value="@Model.DOB.ToShortDateString()" disabled />
-        </dd>
-
-        <dt class="col-4">Номер паспорта</dt>
-        <dd class="col-8">
-            <input value="@Model.PassportID" disabled />
-        </dd>
-
-        <dt class="col-4">Номер телефона</dt>
-        <dd class="col-8">
-            <input value="@Model.PhoneNumber" disabled />
-        </dd>
-    </dl>
-    <h1>Профессиональные данные</h1>
-    <dl class="row">
-        <dt class="col-4">Отдел</dt>
-        <dd class="col-8">
-            <input value="@Model.Department.Name" disabled />
-        </dd>
-
-        <dt class="col-4">Должность</dt>
-        <dd class="col-8">
-            <input value="@Model.Post.PostName" disabled />
-        </dd>
-
-        <dt class="col-4">Оклад</dt>
-        <dd class="col-8">
-            <input value="@Model.Salary бр." disabled />
-        </dd>
-
-    </dl>
-
-</div>
+}

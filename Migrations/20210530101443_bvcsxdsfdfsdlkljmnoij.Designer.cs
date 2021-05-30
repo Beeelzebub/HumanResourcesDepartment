@@ -10,15 +10,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HumanResourcesDepartment.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210520174741_wrgbhsdfxv")]
-    partial class wrgbhsdfxv
+    [Migration("20210530101443_bvcsxdsfdfsdlkljmnoij")]
+    partial class bvcsxdsfdfsdlkljmnoij
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.5")
+                .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("HumanResourcesDepartment.Models.BusinessTrip", b =>
@@ -136,6 +136,9 @@ namespace HumanResourcesDepartment.Migrations
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDismissed")
+                        .HasColumnType("bit");
 
                     b.Property<string>("PassportID")
                         .HasColumnType("nvarchar(max)");
@@ -296,13 +299,13 @@ namespace HumanResourcesDepartment.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BusinessTripId")
-                        .HasColumnType("int");
-
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("NumberOfDaysActuallyWorked")
+                    b.Property<string>("InternalAttendanceMarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Month")
                         .HasColumnType("int");
 
                     b.Property<int>("NumberOfDaysOff")
@@ -311,24 +314,15 @@ namespace HumanResourcesDepartment.Migrations
                     b.Property<int>("NumberOfWorkingDays")
                         .HasColumnType("int");
 
-                    b.Property<string>("Period")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("SickLeaveId")
+                    b.Property<int>("NumberOfWorkingHours")
                         .HasColumnType("int");
 
-                    b.Property<int?>("VacationId")
+                    b.Property<int>("Year")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BusinessTripId");
-
                     b.HasIndex("EmployeeId");
-
-                    b.HasIndex("SickLeaveId");
-
-                    b.HasIndex("VacationId");
 
                     b.ToTable("TimeSheets");
                 });
@@ -364,14 +358,6 @@ namespace HumanResourcesDepartment.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EmployeeId");
-
-                    b.HasIndex("NewDepartmentId");
-
-                    b.HasIndex("NewPostId");
-
-                    b.HasIndex("OldDepartmentId");
-
-                    b.HasIndex("OldPostId");
 
                     b.ToTable("Transfers");
                 });
@@ -677,31 +663,13 @@ namespace HumanResourcesDepartment.Migrations
 
             modelBuilder.Entity("HumanResourcesDepartment.Models.TimeSheet", b =>
                 {
-                    b.HasOne("HumanResourcesDepartment.Models.BusinessTrip", "BusinessTrip")
-                        .WithMany()
-                        .HasForeignKey("BusinessTripId");
-
                     b.HasOne("HumanResourcesDepartment.Models.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HumanResourcesDepartment.Models.SickLeave", "SickLeave")
-                        .WithMany()
-                        .HasForeignKey("SickLeaveId");
-
-                    b.HasOne("HumanResourcesDepartment.Models.Vacation", "Vacation")
-                        .WithMany()
-                        .HasForeignKey("VacationId");
-
-                    b.Navigation("BusinessTrip");
-
                     b.Navigation("Employee");
-
-                    b.Navigation("SickLeave");
-
-                    b.Navigation("Vacation");
                 });
 
             modelBuilder.Entity("HumanResourcesDepartment.Models.Transfer", b =>
@@ -712,39 +680,7 @@ namespace HumanResourcesDepartment.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HumanResourcesDepartment.Models.Department", "NewDepartment")
-                        .WithMany()
-                        .HasForeignKey("NewDepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HumanResourcesDepartment.Models.Post", "NewPost")
-                        .WithMany()
-                        .HasForeignKey("NewPostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HumanResourcesDepartment.Models.Department", "OldDepartment")
-                        .WithMany()
-                        .HasForeignKey("OldDepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HumanResourcesDepartment.Models.Post", "OldPost")
-                        .WithMany()
-                        .HasForeignKey("OldPostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Employee");
-
-                    b.Navigation("NewDepartment");
-
-                    b.Navigation("NewPost");
-
-                    b.Navigation("OldDepartment");
-
-                    b.Navigation("OldPost");
                 });
 
             modelBuilder.Entity("HumanResourcesDepartment.Models.Vacation", b =>

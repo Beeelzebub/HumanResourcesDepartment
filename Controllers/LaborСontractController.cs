@@ -72,7 +72,6 @@ namespace HumanResourcesDepartment.Controllers
                     picture = new Picture { Image = imageData };
                 }
 
-
                 Employee employee = new Employee
                 {
                     FirstName = model.FirstName,
@@ -85,7 +84,8 @@ namespace HumanResourcesDepartment.Controllers
                     DepartmentId = model.DepartmentId,
                     PostId = model.PostId,
                     Experience = model.Experience,
-                    Salary = model.Salary
+                    Salary = model.Salary,
+                    IsDismissed = false
                 };
 
                 LaborСontract laborСontract = new LaborСontract

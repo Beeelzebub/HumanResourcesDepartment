@@ -1,73 +1,100 @@
-﻿@model HumanResourcesDepartment.Models.Employee
+﻿@model HumanResourcesDepartment.ViewModels.EmployeeEditViewModel
 
-@{
-    ViewData["Title"] = "Edit";
-}
+<form id="editForm" asp-action="Edit">
+    @if (Model.IsEdited)
+    {
+        <h1>
+            Личные данные
+            <button type="button" onclick="SendEditForm()" class="btn btn-link"><i class="fa fa-save"></i></button>
+            <button type="button" onclick="getEmployeeInfo(@Model.Id)" class="btn btn-link"><i class="fa fa-times"></i></button>
+        </h1>
+    }
+    else
+    {
+        <h1>Личные данные <button type="button" onclick="EmployeeEdit(@Model.Id)" class="btn btn-link"><i class="fa fa-pencil"></i></button></h1>
+    }
+    <input type="hidden" asp-for="Id" />
+    <dl class="row">
 
-<h1>Edit</h1>
-
-<h4>Employee</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Surname" class="control-label"></label>
-                <input asp-for="Surname" class="form-control" />
+        <dt class="col-4">Фамилия</dt>
+        <dd class="col-8">  
+            @if (Model.IsEdited)
+            {
+                <input asp-for="Surname" />
                 <span asp-validation-for="Surname" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Patronymic" class="control-label"></label>
-                <input asp-for="Patronymic" class="form-control" />
-                <span asp-validation-for="Patronymic" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PassportID" class="control-label"></label>
-                <input asp-for="PassportID" class="form-control" />
-                <span asp-validation-for="PassportID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DOB" class="control-label"></label>
-                <input asp-for="DOB" class="form-control" />
-                <span asp-validation-for="DOB" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PictureId" class="control-label"></label>
-                <select asp-for="PictureId" class="form-control" asp-items="ViewBag.PictureId"></select>
-                <span asp-validation-for="PictureId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DepartmentId" class="control-label"></label>
-                <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
-                <span asp-validation-for="DepartmentId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Experience" class="control-label"></label>
-                <input asp-for="Experience" class="form-control" />
-                <span asp-validation-for="Experience" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+            }
+            else
+            {
+                <input value="@Model.Surname" disabled />
+            }
+        </dd>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+        <dt class="col-4">Имя</dt>
+        <dd class="col-8">
+            @if (Model.IsEdited)
+            {
+                <input asp-for="FirstName" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            }
+            else
+            {
+                <input value="@Model.FirstName" disabled />
+            }
+        </dd>
+
+        <dt class="col-4">Отчество</dt>
+        <dd class="col-8">
+            @if (Model.IsEdited)
+            {
+                <input asp-for="Patronymic" />
+                <span asp-validation-for="Patronymic" class="text-danger"></span>
+            }
+            else
+            {
+                <input value="@Model.Patronymic" disabled />
+            }
+        </dd>
+
+        <dt class="col-4">Дата рождения</dt>
+        <dd class="col-8">
+            @if (Model.IsEdited)
+            {
+                <input type="date" asp-for="DOB" />
+                <span asp-validation-for="DOB" class="text-danger"></span>
+            }
+            else
+            {
+                <input value="@Model.DOB.ToShortDateString()" disabled />
+            }
+        </dd>
+
+        <dt class="col-4">Номер паспорта</dt>
+        <dd class="col-8">
+            @if (Model.IsEdited)
+            {
+                <input asp-for="PassportID" />
+                <span asp-validation-for="PassportID" class="text-danger"></span>
+            }
+            else
+            {
+                <input value="@Model.PassportID" disabled />
+            }
+        </dd>
+
+        <dt class="col-4">Номер телефона</dt>
+        <dd class="col-8">
+            @if (Model.IsEdited)
+            {
+                <input asp-for="PhoneNumber" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            }
+            else
+            {
+                <input value="@Model.PhoneNumber" disabled />
+            }
+        </dd>
+    </dl>
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

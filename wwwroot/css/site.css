@@ -74,3 +74,29 @@ body {
     position: fixed;
     height: 100vh;
 }
+
+table {
+    table-layout: fixed;
+}
+
+.table-input {
+    text-align: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.modal-borders {
+    border-radius: 20px;
+}
+th {
+    word-break: break-all;  
+}
+
+td {
+    word-break: break-all;
+}

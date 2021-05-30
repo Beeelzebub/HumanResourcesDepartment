@@ -1,20 +1,20 @@
 ﻿@model IEnumerable<HumanResourcesDepartment.Models.Employee>
 
-@{
-    ViewData["Title"] = "Index";
-}
-
 <div class="row">
     <div class="col-3">
-        <span>Сотрудники</span>
-        <select id="employeesList" class="w-100" multiple onchange="getEmployeeInfo()">
-            @foreach (var item in Model)
-            {
-                <option value="@item.Id">
-                    @item.GetFullName()
-                </option>
-            }
-        </select>
+        <input id="searachString" class="form-control w-100"
+               onkeypress="search()" type="search" placeholder="Поиск" autocomplete="off">
+
+        <div id="employeesListBlock">
+            <select id="employeesList" class="w-100" multiple onchange="getEmployeeInfo()">
+                @foreach (var item in Model)
+                {
+                    <option value="@item.Id">
+                        @item.GetFullName()
+                    </option>
+                }
+            </select>
+        </div>
     </div>
     <div class="col-9">
         <div id="employeeInfoBlock" class="row">

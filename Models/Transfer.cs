@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HumanResourcesDepartment.Models
 {
-    public class Transfer
+    public class Transfer : ActionInfo
     {
         public int Id { get; set; }
         public int OldDepartmentId { get; set; }
