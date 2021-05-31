@@ -115,6 +115,8 @@ namespace HumanResourcesDepartment.Controllers
 
                 employee.IsDismissed = true;
                 model.Id = 0;
+                model.HRManager = await _userManager.GetUserAsync(User);
+                model.DateOfAction = DateTime.Now;
 
                 _context.Employees.Update(employee);
                 await _context.Dismissals.AddAsync(model);
@@ -145,6 +147,8 @@ namespace HumanResourcesDepartment.Controllers
             if (ModelState.IsValid)
             {
                 var employee = await _context.Employees
+                    .Include(e => e.Department)
+                    .Include(e => e.Post)
                     .Where(e => e.Id == model.EmployeeId)
                     .FirstOrDefaultAsync();
 
@@ -159,7 +163,19 @@ namespace HumanResourcesDepartment.Controllers
                     NewPostId = model.NewPostId,
                     NewSalary = model.NewSalary,
                     Employee = employee,
-                    DateOfTransfer = model.DateOfTransfer
+                    Departments = new List<Department>
+                    {
+                        employee.Department,
+                        await _context.Departments.FirstOrDefaultAsync(d => d.Id == model.NewDepartmentId)
+                    },
+                    Posts = new List<Post>
+                    {
+                        employee.Post,
+                        await _context.Posts.FirstOrDefaultAsync(p => p.Id == model.NewPostId)
+                    },
+                    DateOfTransfer = model.DateOfTransfer,
+                    DateOfAction = DateTime.Now,
+                    HRManager = await _userManager.GetUserAsync(User)
                 };
 
                 employee.DepartmentId = model.NewDepartmentId;
@@ -220,6 +236,8 @@ namespace HumanResourcesDepartment.Controllers
             if (ModelState.IsValid)
             {
                 model.Id = 0;
+                model.HRManager = await _userManager.GetUserAsync(User);
+                model.DateOfAction = DateTime.Now;
                 await _context.Vacations.AddAsync(model);
                 await _context.SaveChangesAsync();
 
@@ -245,6 +263,9 @@ namespace HumanResourcesDepartment.Controllers
             if (ModelState.IsValid)
             {
                 model.Id = 0;
+                model.HRManager = await _userManager.GetUserAsync(User);
+                model.DateOfAction = DateTime.Now;
+
                 await _context.BusinessTrips.AddAsync(model);
                 await _context.SaveChangesAsync();
 
@@ -259,7 +280,7 @@ namespace HumanResourcesDepartment.Controllers
             searchString = searchString?.ToLower() ?? "";
 
             var employees = await _context.Employees
-                .Where(e => e.FirstName.Contains(searchString) 
+                .Where(e => e.FirstName.Contains(searchString)
                     || e.Surname.ToLower().Contains(searchString)
                     || e.Patronymic.ToLower().Contains(searchString)
                     || e.Department.Name.ToLower().Contains(searchString)

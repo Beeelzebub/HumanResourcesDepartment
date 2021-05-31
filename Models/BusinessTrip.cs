@@ -16,6 +16,10 @@ namespace HumanResourcesDepartment.Models
         public string Purpose { get; set; }
 
         public override string GetActionName() => "Командировка";
-        public override string GetDescription() => "fsd";
+        public override string GetDescription() => 
+            "Пункт назначения: " + Destination + 
+            "\nЦель: " + Purpose +
+            "\nДата начала: " + TripStartDate.ToShortDateString() +
+            "\nДата окончания: " + TripEndDate.ToShortDateString();
     }
 }

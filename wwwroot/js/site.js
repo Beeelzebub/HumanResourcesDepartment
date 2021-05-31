@@ -73,3 +73,25 @@ function saveTimeSheet() {
         }
     })
 }
+
+function getActions() {
+    console.log($('#actionsFilterForm').serialize());
+    $.ajax({
+        url: '/Management/GetActions/',
+        type: 'GET',
+        dataType: 'html',
+        data: $('#actionsFilterForm').serialize(),
+        success: function (response) {
+            $('#actionsBlock').html(response);
+        }
+    })
+}
+
+function allTimeCheckboxListener() {
+    if (!$('#allTimeCheckbox').is(":checked")) {
+        $('#actionDate').removeAttr('disabled');
+    }
+    else {
+        $('#actionDate').attr('disabled', 'disabled');
+    }
+}

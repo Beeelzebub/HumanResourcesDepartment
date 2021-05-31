@@ -75,6 +75,8 @@ namespace HumanResourcesDepartment.Controllers
                     DateOfPreparation = model.DateOfPreparation,
                     Salary = model.Salary,
                     Base = model.Base,
+                    DepartmentId = model.DepartmentId,
+                    PostId = model.PostId,
                     DateOfAction = DateTime.Now,
                     HRManager = await _userManager.GetUserAsync(User)
                 };

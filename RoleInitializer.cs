@@ -21,7 +21,7 @@ namespace HumanResourcesDepartment
             }
             if (await userManager.FindByNameAsync("admin") == null)
             {
-                User admin = new User { UserName = "admin", FirstName = "Денис", Surname = "Мишота", Patronymic = "Денисович"};
+                User admin = new User { UserName = "admin", FirstName = "Денис", Surname = "Мишота", Patronymic = "Денисович" };
 
                 IdentityResult result = await userManager.CreateAsync(admin, "admin");
 
@@ -30,6 +30,18 @@ namespace HumanResourcesDepartment
                     await userManager.AddToRoleAsync(admin, "admin");
                 }
 
+
+            }
+            if (await userManager.FindByNameAsync("hr") == null)
+            {
+                User hr = new User { UserName = "hr", FirstName = "Иван", Surname = "Иванов", Patronymic = "Иванович" };
+
+                IdentityResult result = await userManager.CreateAsync(hr, "hr");
+
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(hr, "HR-Manager");
+                }
             }
         }
     }

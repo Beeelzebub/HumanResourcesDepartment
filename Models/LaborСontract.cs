@@ -13,11 +13,22 @@ namespace HumanResourcesDepartment.Models
         public string CompanyName { get; set; }
         public DateTime DateOfPreparation { get; set; }
         public DateTime DateOfAdoption { get; set; }
+        public int PostId { get; set; }
+        public Post Post { get; set; }
+        public int DepartmentId { get; set; }
+        public Department Department { get; set; }
         public float Salary { get; set; }
         public string Base { get; set; }
 
 
         public override string GetActionName() => "Заключение трудового договора";
-        public override string GetDescription() => "fsd";
+        public override string GetDescription() => 
+            "Название компании: " + CompanyName +
+            "\nОтдел: " + Department.Name +
+            "\nДолжность: " + Post.PostName +
+            "\nОклад" + Salary + "бр." +
+            "\nОснование" + Base +
+            "\nДата составления: " + DateOfPreparation.ToShortDateString() + 
+            "\nДата принятия: " + DateOfAdoption.ToShortDateString();
     }
 }

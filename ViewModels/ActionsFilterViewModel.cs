@@ -8,8 +8,9 @@ namespace HumanResourcesDepartment.ViewModels
     public class ActionsFilterViewModel
     {
         public string HRManagerId { get; set; }
-        public DateTime Date { get; set; }
-        public string Action { get; set; }
+        public bool AllTime { get; set; }
+        public DateTime? Date { get; set; }
+        public int ActionId { get; set; }
         public int EmployeeId { get; set; }
     }
 }

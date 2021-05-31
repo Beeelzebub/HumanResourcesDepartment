@@ -15,7 +15,10 @@ namespace HumanResourcesDepartment.Models
         public DateTime VacationEndDate { get; set; }
 
         public override string GetActionName() => "Отпуск";
-        public override string GetDescription() => "fsd";
+        public override string GetDescription() => 
+            "Дата составления: " + DateOfPreparation.ToShortDateString() + 
+            "\nДата начала: " + VacationStartDate.ToShortDateString() +
+            "\nДата окончания: " + VacationEndDate.ToShortDateString();
 
     }
 }

@@ -108,7 +108,8 @@ namespace HumanResourcesDepartment.Models
 
         public string GetDateString() => MonthName[Month - 1] + " " + Year;
         public override string GetActionName() => "Изменение табеля рабочего времени";
-        public override string GetDescription() => "fsd";
+        public override string GetDescription() => 
+            "Период: " + GetDateString();
 
         public TimeSheet()
         {

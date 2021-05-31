@@ -1,0 +1,45 @@
+﻿@model IEnumerable<HumanResourcesDepartment.Models.Action>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Действие
+            </th>
+            <th>
+                Сотрудник
+            </th>
+            <th>
+                Описание
+            </th>
+            <th>
+                Дата
+            </th>
+            <th>
+                Кадровик
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.GetActionName()
+                </td>
+                <td>
+                    @item.Employee.GetFullName()
+                </td>
+                <td>
+                    @item.GetDescription()
+                </td>
+                <td>
+                    @item.DateOfAction
+                </td>
+                <td>
+                    @item.HRManager.GetFullName()
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

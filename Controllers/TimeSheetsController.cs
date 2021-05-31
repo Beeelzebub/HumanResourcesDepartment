@@ -100,12 +100,16 @@ namespace HumanResourcesDepartment.Controllers
 
             if (timeSheet == null)
             {
+                model.HRManager = await _userManager.GetUserAsync(User);
+                model.DateOfAction = DateTime.Now;
                 await _context.TimeSheets.AddAsync(model);
                 await _context.SaveChangesAsync();
                 return PartialView("TimeSheetSaveResult");
             }
 
             timeSheet.AttendanceMarks = model.AttendanceMarks;
+            timeSheet.HRManager = await _userManager.GetUserAsync(User);
+            timeSheet.DateOfAction = DateTime.Now;
             _context.TimeSheets.Update(timeSheet);
             await _context.SaveChangesAsync();
 

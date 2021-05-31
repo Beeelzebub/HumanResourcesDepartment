@@ -15,6 +15,9 @@ namespace HumanResourcesDepartment.Models
         public string SickLeaveReason { get; set; }
 
         public override string GetActionName() => "Больничный";
-        public override string GetDescription() => "fsd";
+        public override string GetDescription() => 
+            "Причина: " + SickLeaveReason +
+            "\nДата начала: " + SickLeaveStartDate.ToShortDateString() +
+            "\nДата окончания: " + SickLeaveEndDate.ToShortDateString();
     }
 }

@@ -16,6 +16,9 @@ namespace HumanResourcesDepartment.Models
 
 
         public override string GetActionName() => "Увольнение";
-        public override string GetDescription() => "fsd";
+        public override string GetDescription() => 
+            "Основание: " + Reason + 
+            "\nДата составления: " + DateOfPreparation.ToShortDateString() +
+            "\nДата увольнения: " + DateOfDismissal.ToShortDateString();
     }
 }
