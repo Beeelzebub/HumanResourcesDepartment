@@ -21,7 +21,6 @@ namespace HumanResourcesDepartment.Models
         public Department Department { get; set; }
         public int PostId { get; set; }
         public Post Post { get; set; }
-        public string Experience { get; set; }
         public float Salary { get; set; }
         public string GetFullName() => Surname + " " + FirstName[0] + "." + Patronymic[0] + ".";
     }

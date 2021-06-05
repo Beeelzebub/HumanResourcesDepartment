@@ -6,66 +6,89 @@
 }
 else
 {
-    <div class="col-5">
-        <div class="row justify-content-center">
+    <div class="col-4">
+        <div class="mt-2 mb-5 row justify-content-center">
             <img height="350" width="350" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Picture.Image))" alt="" />
         </div>
         @if (!Model.IsDismissed)
         {
-            <div class="row m-3">
-                <a asp-action="EmployeeBusinessTrip" asp-route-id="@Model.Id" class="btn btn-outline-info btn-block">Командировка</a>
+            <div class="row justify-content-center m-3">
+                <div class="col-10">
+                    <a asp-action="EmployeeBusinessTrip" asp-route-id="@Model.Id" class="btn btn-outline-primary btn-block">Командировка</a>
+                </div>
             </div>
-            <div class="row m-3">
-                <a asp-action="EmployeeVacation" asp-route-id="@Model.Id" class="btn btn-outline-info btn-block">Отпуск</a>
+            <div class="row justify-content-center m-3">
+                <div class="col-10">
+                    <a asp-action="EmployeeVacation" asp-route-id="@Model.Id" class="btn btn-outline-primary btn-block">Отпуск</a>
+                </div>
             </div>
-            <div class="row m-3">
-                <a asp-action="EmployeeSickLeave" asp-route-id="@Model.Id" class="btn btn-outline-info btn-block">Больничный</a>
+            <div class="row justify-content-center m-3">
+                <div class="col-10">
+                    <a asp-action="EmployeeSickLeave" asp-route-id="@Model.Id" class="btn btn-outline-primary btn-block">Больничный</a>
+                </div>
             </div>
-            <div class="row m-3">
-                <a asp-action="EmployeeTransfer" asp-route-id="@Model.Id" class="btn btn-outline-info btn-block">Перевод</a>
+            <div class="row justify-content-center m-3">
+                <div class="col-10">
+                    <a asp-action="EmployeeTransfer" asp-route-id="@Model.Id" class="btn btn-outline-primary btn-block">Перевод</a>
+                </div>
             </div>
-            <div class="row m-3">
-                <a asp-controller="TimeSheets" asp-action="EmployeeTimeSheet" asp-route-id="@Model.Id" class="btn btn-outline-info btn-block">Табель рабочего времени</a>
+            <div class="row justify-content-center m-3">
+                <div class="col-10">
+                    <a asp-controller="TimeSheets" asp-action="EmployeeTimeSheet" asp-route-id="@Model.Id" class="btn btn-outline-primary btn-block">Табель рабочего времени</a>
+                </div>
             </div>
-            <div class="row m-3">
-                <a asp-action="EmployeeDismissal" asp-route-id="@Model.Id" class="btn btn-outline-danger btn-block">Увольнение</a>
+            <div class="row justify-content-center m-3">
+                <div class="col-10">
+                    <a asp-action="EmployeeDismissal" asp-route-id="@Model.Id" class="btn btn-outline-danger btn-block">Увольнение</a>
+                </div>
             </div>
         }
     </div>
-    <div class="col-7">
+    <div class="col-5">
         <div id="personalInfoBlock">
-            <h1>Личные данные <button onclick="EmployeeEdit(@Model.Id)" class="btn btn-link"><i class="fa fa-pencil"></i></button></h1>
-            <dl class="row">
-                <dt class="col-4">Фамилия</dt>
-                <dd class="col-8">
-                    <input value="@Model.Surname" disabled />
-                </dd>
+            <h1>Личные данные <button title="Редактировать" onclick="EmployeeEdit(@Model.Id)" class="btn btn-link"><i class="fa fa-lg fa-pencil"></i></button></h1>
+            <hr />
+            <div class="form-group row">
+                <label for="Surname" class="col-4 col-form-label"><strong>Фамилия</strong></label>
+                <div class="col-8">
+                    <input id="Surname" class="form-control" value="@Model.Surname" disabled />
+                </div>
+            </div>
 
-                <dt class="col-4">Имя</dt>
-                <dd class="col-8">
-                    <input value="@Model.FirstName" disabled />
-                </dd>
+            <div class="form-group row">
+                <label for="FirstName" class="col-4 col-form-label"><strong>Имя</strong></label>
+                <div class="col-8">
+                    <input id="FirstName" class="form-control" value="@Model.FirstName" disabled />
+                </div>
+            </div>
 
-                <dt class="col-4">Отчество</dt>
-                <dd class="col-8">
-                    <input value="@Model.Patronymic" disabled />
-                </dd>
+            <div class="form-group row">
+                <label for="Patronymic" class="col-4 col-form-label"><strong>Отчество</strong></label>
+                <div class="col-8">
+                    <input id="Patronymic" class="form-control" value="@Model.Patronymic" disabled />
+                </div>
+            </div>
 
-                <dt class="col-4">Дата рождения</dt>
-                <dd class="col-8">
-                    <input value="@Model.DOB.ToShortDateString()" disabled />
-                </dd>
+            <div class="form-group row">
+                <label for="DOB" class="col-4 col-form-label"><strong>Дата рождения</strong></label>
+                <div class="col-8">
+                    <input id="DOB" class="form-control" value="@Model.DOB.ToShortDateString()" disabled />
+                </div>
+            </div>
 
-                <dt class="col-4">Номер паспорта</dt>
-                <dd class="col-8">
-                    <input value="@Model.PassportID" disabled />
-                </dd>
+            <div class="form-group row">
+                <label for="PassportID" class="col-4 col-form-label"><strong>Номер паспорта</strong></label>
+                <div class="col-8">
+                    <input id="PassportID" class="form-control" value="@Model.PassportID" disabled />
+                </div>
+            </div>
 
-                <dt class="col-4">Номер телефона</dt>
-                <dd class="col-8">
-                    <input value="@Model.PhoneNumber" disabled />
-                </dd>
-            </dl>
+            <div class="form-group row">
+                <label for="PhoneNumber" class="col-4 col-form-label"><strong>Номер телефона</strong></label>
+                <div class="col-8">
+                    <input id="PhoneNumber" class="form-control" value="@Model.PhoneNumber" disabled />
+                </div>
+            </div>
         </div>
         @if (Model.IsDismissed)
         {
@@ -74,29 +97,31 @@ else
         else
         {
             <h1>Профессиональные данные</h1>
-            <dl class="row">
-                <dt class="col-4">Табельный номер</dt>
-                <dd class="col-8">
-                    <input value="@Model.Id" disabled />
-                </dd>
-
-                <dt class="col-4">Отдел</dt>
-                <dd class="col-8">
-                    <input value="@Model.Department.Name" disabled />
-                </dd>
-
-                <dt class="col-4">Должность</dt>
-                <dd class="col-8">
-                    <input value="@Model.Post.PostName" disabled />
-                </dd>
-
-                <dt class="col-4">Оклад</dt>
-                <dd class="col-8">
-                    <input value="@Model.Salary бр." disabled />
-                </dd>
-
-            </dl>
+            <hr />
+            <div class="form-group row">
+                <label for="Id" class="col-4 col-form-label"><strong>Табельный номер</strong></label>
+                <div class="col-8">
+                    <input id="Id" class="form-control" value="@Model.Id" disabled />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Department" class="col-4 col-form-label"><strong>Отдел</strong></label>
+                <div class="col-8">
+                    <input id="Department" class="form-control" value="@Model.Department.Name" disabled />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Post" class="col-4 col-form-label"><strong>Должность</strong></label>
+                <div class="col-8">
+                    <input id="Post" class="form-control" value="@Model.Post.PostName" disabled />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Salary" class="col-4 col-form-label"><strong>Оклад</strong></label>
+                <div class="col-8">
+                    <input id="Salary" class="form-control" value="@Model.Salary бр." disabled />
+                </div>
+            </div>
         }
-
     </div>
 }

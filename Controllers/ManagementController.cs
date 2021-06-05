@@ -1,6 +1,7 @@
 ﻿using HumanResourcesDepartment.Data;
 using HumanResourcesDepartment.Models;
 using HumanResourcesDepartment.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -31,6 +32,7 @@ namespace HumanResourcesDepartment.Controllers
             return View();
         }
 
+        [Authorize]
         public async Task<IActionResult> History()
         {
             var employeesId = await _context.Employees.Select(e => new { Id = e.Id, Name = e.GetFullName() }).ToListAsync();
@@ -45,13 +47,14 @@ namespace HumanResourcesDepartment.Controllers
             
             return View(await LoadActionsFromDB());
         }
-
+        
+        [Authorize]
         public async Task<IActionResult> GetActions(ActionsFilterViewModel model)
         {
             List<Models.Action> actions = await LoadActionsFromDB();
 
             if (model.HRManagerId != "0")
-                actions = actions.Where(a => a.HRManager.Id == model.HRManagerId).ToList();
+                actions = actions.Where(a => a.HRManager != null && a.HRManager.Id == model.HRManagerId).ToList();
 
             if (!model.AllTime)
                 actions = actions.Where(a => a.DateOfAction.ToShortDateString() == model.Date?.ToShortDateString()).ToList();
@@ -80,17 +83,27 @@ namespace HumanResourcesDepartment.Controllers
             return PartialView("ActionsList", actions);
         }
 
-        public async Task<List<Models.Action>> LoadActionsFromDB()
+        private async Task<List<Models.Action>> LoadActionsFromDB()
         {
             List<Models.Action> actions = new List<Models.Action>();
 
+            List<Department> departments = await _context.Departments.ToListAsync();
+            List<Post> posts = await _context.Posts.ToListAsync();
+            List<Transfer> transfers = await _context.Transfers.Include(a => a.Employee).Include(a => a.HRManager).ToListAsync();
+            transfers.ForEach(t => t.OldDepartment = departments.FirstOrDefault(d => d.Id == t.OldDepartmentId));
+            transfers.ForEach(t => t.NewDepartment = departments.FirstOrDefault(d => d.Id == t.NewDepartmentId));
+            transfers.ForEach(t => t.OldPost = posts.FirstOrDefault(p => p.Id == t.OldPostId));
+            transfers.ForEach(t => t.NewPost = posts.FirstOrDefault(p => p.Id == t.NewPostId));
+            actions.AddRange(transfers);
+
             actions.AddRange(await _context.BusinessTrips.Include(a => a.Employee).Include(a => a.HRManager).ToListAsync());
             actions.AddRange(await _context.Dismissals.Include(a => a.Employee).Include(a => a.HRManager).ToListAsync());
-            actions.AddRange(await _context.LaborСontracts.Include(a => a.Employee).Include(a => a.HRManager).ToListAsync());
+            actions.AddRange(await _context.LaborСontracts.Include(a => a.Department)
+                .Include(a => a.Post).Include(a => a.Employee).Include(a => a.HRManager).ToListAsync());
             actions.AddRange(await _context.SickLeaves.Include(a => a.Employee).Include(a => a.HRManager).ToListAsync());
-            actions.AddRange(await _context.Transfers.Include(a => a.Employee).Include(a => a.HRManager).ToListAsync());
             actions.AddRange(await _context.Vacations.Include(a => a.Employee).Include(a => a.HRManager).ToListAsync());
             actions.AddRange(await _context.TimeSheets.Include(a => a.Employee).Include(a => a.HRManager).ToListAsync());
+            actions.Sort();
 
             return actions;
         }

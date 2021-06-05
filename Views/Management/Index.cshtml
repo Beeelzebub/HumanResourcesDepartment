@@ -1,9 +1,23 @@
-﻿<div class="row justify-content-center">
-    <div class="col-4">
-        <a class="btn btn-outline-info btn-block" asp-controller="LaborСontract" asp-action="Create">Новый трудовой договор</a>
-        <a class="btn btn-outline-info btn-block" asp-controller="Employees" asp-action="Index">Список сотрудников</a>
-        <a class="btn btn-outline-info btn-block" asp-controller="TimeSheets" asp-action="Index">Составить табель рабочего времени</a>
-        <a class="btn btn-outline-info btn-block" asp-action="History">История действий</a>
-        <a class="btn btn-outline-danger btn-block" asp-controller="Account" asp-action="Logout">Выйти</a>
+﻿<div class="mb-5 mt-5 row justify-content-center">
+    <h1 class="text-center">Меню</h1>
+</div>
+<hr />
+<div class="row justify-content-center">
+    <div class="col-3">
+        @if (User.IsInRole("HR-Manager"))
+        {
+            <a class="btn mt-2 mb-3 btn-outline-primary btn-block" asp-controller="Employees" asp-action="Create">Новый трудовой договор</a>
+            <a class="btn mb-3 btn-outline-primary btn-block" asp-controller="Employees" asp-action="Index">Список сотрудников</a>
+            <a class="btn mb-3 btn-outline-primary btn-block" asp-controller="TimeSheets" asp-action="Index">Составить табель рабочего времени</a>
+            <a class="btn mb-3 btn-outline-primary btn-block" asp-action="History">История действий</a>
+
+        }
+        else
+        {
+            <a class="btn mt-2 mb-3 btn-outline-primary btn-block" asp-controller="Users" asp-action="Create">Добавить нового пользователя</a>
+            <a class="btn mb-3 btn-outline-primary btn-block" asp-controller="Users" asp-action="Index">Список пользователей</a>
+            <a class="btn mb-3 btn-outline-primary btn-block" asp-action="History">История действий</a>
+        }
+        <a class="btn mb-3 btn-outline-danger btn-block" asp-controller="Account" asp-action="Logout">Выйти</a>
     </div>
 </div>

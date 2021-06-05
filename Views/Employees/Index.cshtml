@@ -1,28 +1,27 @@
 ﻿@model IEnumerable<HumanResourcesDepartment.Models.Employee>
 
-<div class="row">
+<div class="row h-100">
     <div class="col-3">
-        <input id="searachString" class="form-control w-100"
-               onkeypress="search()" type="search" placeholder="Поиск" autocomplete="off">
-
-        <div id="employeesListBlock">
-            <select id="employeesList" class="w-100" multiple onchange="getEmployeeInfo()">
+        <div class="input-group mb-2 w-100">
+            <input id="searachString" type="text" class="form-control" placeholder="Поиск">
+            <div class="input-group-btn">
+                <button onclick="search()" class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+        <div class="bg-light" id="employeesListBlock">
+            <div class="list-group" id="list-tab" role="tablist">
                 @foreach (var item in Model)
                 {
-                    <option value="@item.Id">
-                        @item.GetFullName()
-                    </option>
+                    <a onclick="getEmployeeInfo(@item.Id)" class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" role="tab">@item.Surname @item.FirstName @item.Patronymic</a>
                 }
-            </select>
+            </div>
         </div>
     </div>
-    <div class="col-9">
-        <div id="employeeInfoBlock" class="row">
+    <div class="bg-light col-9">
+        <div id="employeeInfoBlock" class="row justify-content-around">
             <div class="col-3">
-                we
             </div>
-            <div class="col-9">
-                we
+            <div class="col-3">
             </div>
         </div>
     </div>

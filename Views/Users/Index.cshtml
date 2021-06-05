@@ -1,0 +1,25 @@
+﻿@model IEnumerable<HumanResourcesDepartment.Models.User>
+<div class="mb-5 mt-5 row justify-content-center">
+    <h1 class="text-center">Пользователи приложения</h1>
+</div>
+<hr />
+<div class="container">
+    <a class="ml-3" asp-action="Create"><i class="fa fa-plus"></i>Добавить пользователя</a>
+
+    <table class="table mt-4 bg-light table-hover table-bordered">
+        <tr><th colspan="3">Логин</th><th colspan="3">ФИО</th><th></th></tr>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td colspan="3">@user.UserName</td>
+                <td colspan="3">@user.FirstName @user.Surname @user.Patronymic</td>
+                <td class="text-center">
+                    <form asp-action="Delete" asp-route-id="@user.Id" method="post">
+                        <a title="редактировать" class="text-dark nondecoration" asp-action="Edit" asp-route-id="@user.Id"><i class="fa fa-lg fa-pencil action-icon"></i></a>
+                        <a title="удалить" class="text-dark nondecoration" asp-action="Delete" asp-route-id="@user.Id"><i class="fa fa-lg fa-trash action-icon"></i></a>
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

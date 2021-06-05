@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,18 +8,23 @@ namespace HumanResourcesDepartment.Models
 {
     public class Dismissal : Action
     {
-        public int Id { get; set; }
-        public int EmployeeId { get; set; }
-        public override Employee Employee { get; set; }
-        public DateTime DateOfPreparation { get; set; }
-        public DateTime DateOfDismissal { get; set; }
+        [Required(ErrorMessage = "Поле должно быть заполнено")]
+        [Display(Name = "Дата составления")]
+        public DateTime? DateOfPreparation { get; set; }
+
+        [Required(ErrorMessage = "Поле должно быть заполнено")]
+        [Display(Name = "Дата увольнения")]
+        public DateTime? DateOfDismissal { get; set; }
+
+        [Required(ErrorMessage = "Поле должно быть заполнено")]
+        [Display(Name = "Основание")]
         public string Reason { get; set; }
 
 
         public override string GetActionName() => "Увольнение";
-        public override string GetDescription() => 
-            "Основание: " + Reason + 
-            "\nДата составления: " + DateOfPreparation.ToShortDateString() +
-            "\nДата увольнения: " + DateOfDismissal.ToShortDateString();
+        public override string GetDescription() =>
+            "<strong>Основание: </strong>" + Reason +
+            "<br /><strong>Дата составления: </strong>" + DateOfPreparation?.ToShortDateString() +
+            "<br /><strong>Дата увольнения: </strong>" + DateOfDismissal?.ToShortDateString();
     }
 }

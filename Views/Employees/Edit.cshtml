@@ -5,95 +5,134 @@
     {
         <h1>
             Личные данные
-            <button type="button" onclick="SendEditForm()" class="btn btn-link"><i class="fa fa-save"></i></button>
-            <button type="button" onclick="getEmployeeInfo(@Model.Id)" class="btn btn-link"><i class="fa fa-times"></i></button>
+            <button title="Сохранить" type="button" onclick="SendEditForm()" class="btn btn-link"><i class="fa fa-save fa-lg"></i></button>
+            <button title="Отменить" type="button" onclick="getEmployeeInfo(@Model.Id)" class="btn btn-link"><i class="fa fa-times fa-lg"></i></button>
         </h1>
     }
     else
     {
-        <h1>Личные данные <button type="button" onclick="EmployeeEdit(@Model.Id)" class="btn btn-link"><i class="fa fa-pencil"></i></button></h1>
+        <h1>Личные данные <button title="Редактировать" type="button" onclick="EmployeeEdit(@Model.Id)" class="btn btn-link"><i class="fa fa-lg fa-pencil"></i></button></h1>
     }
+    <hr />
     <input type="hidden" asp-for="Id" />
-    <dl class="row">
-
-        <dt class="col-4">Фамилия</dt>
-        <dd class="col-8">  
-            @if (Model.IsEdited)
-            {
-                <input asp-for="Surname" />
+    @if (Model.IsEdited)
+    {
+        <div class="form-group row">
+            <label asp-for="Surname" class="col-4 col-form-label"><strong>Фамилия</strong></label>
+            <div class="col-8">
+                <input class="form-control" asp-for="Surname" />
                 <span asp-validation-for="Surname" class="text-danger"></span>
-            }
-            else
-            {
-                <input value="@Model.Surname" disabled />
-            }
-        </dd>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="form-group row">
+            <label for="Surname" class="col-4 col-form-label"><strong>Фамилия</strong></label>
+            <div class="col-8">
+                <input id="Surname" class="form-control" value="@Model.Surname" disabled />
+            </div>
+        </div>
+    }
 
-        <dt class="col-4">Имя</dt>
-        <dd class="col-8">
-            @if (Model.IsEdited)
-            {
-                <input asp-for="FirstName" />
+    @if (Model.IsEdited)
+    {
+        <div class="form-group row">
+            <label asp-for="FirstName" class="col-4 col-form-label"><strong>Имя</strong></label>
+            <div class="col-8">
+                <input class="form-control" asp-for="FirstName" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
-            }
-            else
-            {
-                <input value="@Model.FirstName" disabled />
-            }
-        </dd>
-
-        <dt class="col-4">Отчество</dt>
-        <dd class="col-8">
-            @if (Model.IsEdited)
-            {
-                <input asp-for="Patronymic" />
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="form-group row">
+            <label for="FirstName" class="col-4 col-form-label"><strong>Имя</strong></label>
+            <div class="col-8">
+                <input id="FirstName" class="form-control" value="@Model.FirstName" disabled />
+            </div>
+        </div>
+    }
+    @if (Model.IsEdited)
+    {
+        <div class="form-group row">
+            <label asp-for="Patronymic" class="col-4 col-form-label"><strong>Отчество</strong></label>
+            <div class="col-8">
+                <input asp-for="Patronymic" class="form-control" />
                 <span asp-validation-for="Patronymic" class="text-danger"></span>
-            }
-            else
-            {
-                <input value="@Model.Patronymic" disabled />
-            }
-        </dd>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="form-group row">
+            <label for="Patronymic" class="col-4 col-form-label"><strong>Отчество</strong></label>
+            <div class="col-8">
+                <input id="Patronymic" class="form-control" value="@Model.Patronymic" disabled />
+            </div>
+        </div>
+    }
 
-        <dt class="col-4">Дата рождения</dt>
-        <dd class="col-8">
-            @if (Model.IsEdited)
-            {
-                <input type="date" asp-for="DOB" />
+    @if (Model.IsEdited)
+    {
+        <div class="form-group row">
+            <label asp-for="DOB" class="col-4 col-form-label"><strong>Дата рождения</strong></label>
+            <div class="col-8">
+                <input type="date" class="form-control" asp-for="DOB" />
                 <span asp-validation-for="DOB" class="text-danger"></span>
-            }
-            else
-            {
-                <input value="@Model.DOB.ToShortDateString()" disabled />
-            }
-        </dd>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="form-group row">
+            <label for="DOB" class="col-4 col-form-label"><strong>Дата рождения</strong></label>
+            <div class="col-8">
+                <input id="DOB" class="form-control" value="@Model.DOB.ToShortDateString()" disabled />
+            </div>
+        </div>
+    }
 
-        <dt class="col-4">Номер паспорта</dt>
-        <dd class="col-8">
-            @if (Model.IsEdited)
-            {
-                <input asp-for="PassportID" />
+    @if (Model.IsEdited)
+    {
+        <div class="form-group row">
+            <label asp-for="PassportID" class="col-4 col-form-label"><strong>Номер паспорта</strong></label>
+            <div class="col-8">
+                <input class="form-control" asp-for="PassportID" />
                 <span asp-validation-for="PassportID" class="text-danger"></span>
-            }
-            else
-            {
-                <input value="@Model.PassportID" disabled />
-            }
-        </dd>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="form-group row">
+            <label for="PassportID" class="col-4 col-form-label"><strong>Номер паспорта</strong></label>
+            <div class="col-8">
+                <input id="PassportID" class="form-control" value="@Model.PassportID" disabled />
+            </div>
+        </div>
+    }
 
-        <dt class="col-4">Номер телефона</dt>
-        <dd class="col-8">
-            @if (Model.IsEdited)
-            {
-                <input asp-for="PhoneNumber" />
+    @if (Model.IsEdited)
+    {
+        <div class="form-group row">
+            <label asp-for="PhoneNumber" class="col-4 col-form-label"><strong>Номер телефона</strong></label>
+            <div class="col-8">
+                <input class="form-control" asp-for="PhoneNumber" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            }
-            else
-            {
-                <input value="@Model.PhoneNumber" disabled />
-            }
-        </dd>
-    </dl>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="form-group row">
+            <label for="PhoneNumber" class="col-4 col-form-label"><strong>Номер телефона</strong></label>
+            <div class="col-8">
+                <input id="PhoneNumber" class="form-control" value="@Model.PhoneNumber" disabled />
+            </div>
+        </div>
+    }
 </form>
 
 @section Scripts {

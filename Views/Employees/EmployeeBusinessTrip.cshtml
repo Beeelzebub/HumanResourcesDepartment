@@ -1,22 +1,21 @@
 ﻿@model BusinessTrip
 
-<h1>Командировка</h1>
-
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="EmployeeBusinessTrip">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="EmployeeId" />
-
+<form asp-action="EmployeeBusinessTrip">
+    <div class="mb-5 mt-5 row justify-content-center">
+        <h1 class="text-center">Командировка</h1>
+    </div>
+    <hr />
+    <input type="hidden" asp-for="EmployeeId" />
+    <div class="row justify-content-center">
+        <div class="col-3">
             <div class="form-group">
                 <label asp-for="TripStartDate" class="control-label"></label>
-                <input asp-for="TripStartDate" class="form-control" />
+                <input type="date" asp-for="TripStartDate" class="form-control" />
                 <span asp-validation-for="TripStartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TripEndDate" class="control-label"></label>
-                <input asp-for="TripEndDate" class="form-control" />
+                <input type="date" asp-for="TripEndDate" class="form-control" />
                 <span asp-validation-for="TripEndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -29,16 +28,21 @@
                 <input asp-for="Purpose" class="form-control" />
                 <span asp-validation-for="Purpose" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+    <div class="row justify-content-center">
+        <div class="mt-5 col-2">
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-block btn-outline-primary" />
+            </div>
+        </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    </div>
+    <div class="row justify-content-center">
+        <a asp-action="Index">Отмена</a>
+    </div>
+</form>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

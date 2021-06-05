@@ -1,10 +1,8 @@
 ﻿@model IEnumerable<HumanResourcesDepartment.Models.Employee>
 
-<select id="employeesList" class="w-100" multiple onchange="getEmployeeInfo()">
+<div class="list-group" id="list-tab" role="tablist">
     @foreach (var item in Model)
     {
-        <option value="@item.Id">
-            @item.GetFullName()
-        </option>
+        <a onclick="getEmployeeInfo(@item.Id)" class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" role="tab">@item.Surname @item.FirstName @item.Patronymic</a>
     }
-</select>
+</div>

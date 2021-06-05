@@ -9,6 +9,7 @@ using HumanResourcesDepartment.Data;
 using HumanResourcesDepartment.Models;
 using HumanResourcesDepartment.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HumanResourcesDepartment.Controllers
 {
@@ -23,12 +24,13 @@ namespace HumanResourcesDepartment.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "HR-Manager")]
         public async Task<IActionResult> EmployeeTimeSheet(int id)
         {
             var employee = await _context.Employees
+                .Include(e => e.Post)
                 .Include(e => e.Picture)
-                .Where(e => e.Id == id)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(e => e.Id == id);
 
             if (employee == null)
                 return NotFound();
@@ -36,6 +38,7 @@ namespace HumanResourcesDepartment.Controllers
             return View(employee);
         }
 
+        [Authorize(Roles = "HR-Manager")]
         public async Task<IActionResult> GetAttendanceMarks(int id, int month, int year)
         {
             return PartialView("AttendanceMarks", await FindTimeSheet(id, month, year));
@@ -70,28 +73,29 @@ namespace HumanResourcesDepartment.Controllers
             DateTime startOfMonth = new DateTime(year, month, 1);
             DateTime endOfMonth = new DateTime(year, month, DateTime.DaysInMonth(year, month));
 
-            timeSheet.BusinessTrips = await _context.BusinessTrips
+            var businessTrips = await _context.BusinessTrips
                         .Where(b => b.TripStartDate <= endOfMonth
                             && b.TripEndDate >= startOfMonth
                             && b.EmployeeId == id)
                         .ToListAsync();
-            timeSheet.Vacations = await _context.Vacations
+            var vacations = await _context.Vacations
                         .Where(v => v.VacationStartDate <= endOfMonth
                             && v.VacationEndDate >= startOfMonth
                             && v.EmployeeId == id)
                         .ToListAsync();
-            timeSheet.SickLeaves = await _context.SickLeaves
+            var sickLeaves = await _context.SickLeaves
                         .Where(s => s.SickLeaveStartDate <= endOfMonth
                             && s.SickLeaveEndDate >= startOfMonth
                             && s.EmployeeId == id)
                         .ToListAsync();
 
-            timeSheet.SetGaps();
+            timeSheet.SetGaps(vacations, businessTrips, sickLeaves);
 
             return timeSheet;
         }
 
         [HttpPost]
+        [Authorize(Roles = "HR-Manager")]
         public async Task<IActionResult> SaveTimeSheet(TimeSheet model)
         {
             TimeSheet timeSheet = await _context.TimeSheets
@@ -116,11 +120,13 @@ namespace HumanResourcesDepartment.Controllers
             return PartialView("TimeSheetSaveResult");
         }
 
+        [Authorize(Roles = "HR-Manager")]
         public IActionResult Index()
         {
             return View();
         }
 
+        [Authorize(Roles = "HR-Manager")]
         public async Task<IActionResult> GetTimeSheets(int month, int year)
         {
             List<TimeSheet> timeSheets = new List<TimeSheet>();

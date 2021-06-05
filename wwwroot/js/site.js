@@ -1,6 +1,4 @@
-﻿function getEmployeeInfo() {
-    var id = $('#employeesList').val();
-
+﻿function getEmployeeInfo(id) {
     $('#employeeInfoBlock').load('/Employees/GetEmployeeInfo', { id: id});
 }
 

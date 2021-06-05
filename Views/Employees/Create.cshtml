@@ -1,17 +1,12 @@
-﻿@model HumanResourcesDepartment.Models.Employee
+﻿@model HumanResourcesDepartment.ViewModels.LaborContractViewModel
 
-@{
-    ViewData["Title"] = "Create";
-}
-
-<h1>Create</h1>
-
-<h4>Employee</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<form asp-action="Create" enctype="multipart/form-data">
+    <div class="mb-5 mt-5 row justify-content-center">
+        <h1 class="text-center">Заключение нового трудового договора</h1>
+    </div>
+    <hr />
+    <div class="row justify-content-center">
+        <div class="col-3">
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
@@ -28,6 +23,11 @@
                 <span asp-validation-for="Patronymic" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="Image" type="file" class="form-control" placeholder="Загрузите изображение" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="PhoneNumber" class="control-label"></label>
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
@@ -39,32 +39,57 @@
             </div>
             <div class="form-group">
                 <label asp-for="DOB" class="control-label"></label>
-                <input asp-for="DOB" class="form-control" />
+                <input type="date" asp-for="DOB" class="form-control" />
                 <span asp-validation-for="DOB" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-3 offset-1">
             <div class="form-group">
-                <label asp-for="PictureId" class="control-label"></label>
-                <select asp-for="PictureId" class ="form-control" asp-items="ViewBag.PictureId"></select>
+                <label asp-for="CompanyName" class="control-label"></label>
+                <input asp-for="CompanyName" class="form-control" />
+                <span asp-validation-for="CompanyName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DepartmentId" class="control-label"></label>
-                <select asp-for="DepartmentId" class ="form-control" asp-items="ViewBag.DepartmentId"></select>
+                <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="Experience" class="control-label"></label>
-                <input asp-for="Experience" class="form-control" />
-                <span asp-validation-for="Experience" class="text-danger"></span>
+                <label asp-for="PostId" class="control-label"></label>
+                <select asp-for="PostId" class="form-control" asp-items="ViewBag.PostId"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <label asp-for="Salary" class="control-label"></label>
+                <input asp-for="Salary" class="form-control" />
+                <span asp-validation-for="Salary" class="text-danger"></span>
             </div>
-        </form>
+            <div class="form-group">
+                <label asp-for="Base" class="control-label"></label>
+                <input asp-for="Base" class="form-control" />
+                <span asp-validation-for="Base" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfPreparation" class="control-label"></label>
+                <input type="date" asp-for="DateOfPreparation" class="form-control" />
+                <span asp-validation-for="DateOfPreparation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfAdoption" class="control-label"></label>
+                <input type="date" asp-for="DateOfAdoption" class="form-control" />
+                <span asp-validation-for="DateOfAdoption" class="text-danger"></span>
+            </div>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div class="row justify-content-center">
+        <div class="mt-5 col-2">
+            <div class="form-group">
+                <input type="submit" value="Добавить" class="btn btn-outline-primary btn-block" />
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <a asp-action="Index" asp-controller="Management">Отмена</a>
+    </div>
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

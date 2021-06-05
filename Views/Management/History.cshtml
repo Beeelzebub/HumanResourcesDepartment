@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<HumanResourcesDepartment.Models.Action>
 
+<div class="mb-5 mt-5 row justify-content-center">
+    <h1 class="text-center">Действия отдела кадров</h1>
+</div>
+<hr />
 <div class="row">
     <div class="col-2">
         <form id="actionsFilterForm">
@@ -34,6 +38,7 @@
                     <label class="form-check-label" for="allTimeCheckbox">За всё время</label>
                 </div>
             </div>
+            <hr />
             <div class="form-group">
                 <input type="button" value="Применить" onclick="getActions()" class="btn-block btn btn-outline-primary" />
             </div>
@@ -41,7 +46,7 @@
     </div>
     <div class="col-10">
         <div id="actionsBlock">
-            <table class="table table-bordered">
+            <table class="table mt-4 bg-light table-hover table-bordered">
                 <thead>
                     <tr>
                         <th>
@@ -72,13 +77,20 @@
                                 @item.Employee.GetFullName()
                             </td>
                             <td>
-                                @item.GetDescription()
+                                @Html.Raw(item.GetDescription())
                             </td>
                             <td>
                                 @item.DateOfAction
                             </td>
                             <td>
-                                @item.HRManager.GetFullName()
+                                @if (item.HRManager == null)
+                                {
+                                    <span class="text-danger">Неизвестно</span>
+                                }
+                                else
+                                {
+                                    @item.HRManager.GetFullName()
+                                }
                             </td>
                         </tr>
                     }

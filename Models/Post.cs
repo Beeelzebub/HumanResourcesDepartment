@@ -9,11 +9,5 @@ namespace HumanResourcesDepartment.Models
     {
         public int Id { get; set; }
         public string PostName { get; set; }
-        public List<Transfer> Transfers { get; set; }
-
-        public Post()
-        {
-            Transfers = new List<Transfer>();
-        }
     }
 }

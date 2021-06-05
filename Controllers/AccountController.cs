@@ -1,6 +1,7 @@
 ﻿using HumanResourcesDepartment.Data;
 using HumanResourcesDepartment.Models;
 using HumanResourcesDepartment.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -56,11 +57,7 @@ namespace HumanResourcesDepartment.Controllers
             return View(model);
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();

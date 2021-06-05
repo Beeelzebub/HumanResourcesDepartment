@@ -9,6 +9,8 @@ using HumanResourcesDepartment.Data;
 using HumanResourcesDepartment.Models;
 using HumanResourcesDepartment.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using System.IO;
 
 namespace HumanResourcesDepartment.Controllers
 {
@@ -23,12 +25,14 @@ namespace HumanResourcesDepartment.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "HR-Manager")]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Employees;
             return View(await applicationDbContext.ToListAsync());
         }
 
+        [Authorize(Roles = "HR-Manager")]
         public async Task<IActionResult> GetEmployeeInfo(int id)
         {
             var employee = await _context.Employees
@@ -41,6 +45,77 @@ namespace HumanResourcesDepartment.Controllers
             return PartialView("EmployeeInfo", employee);
         }
 
+        [Authorize(Roles = "HR-Manager")]
+        public IActionResult Create()
+        {
+            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "PostName");
+            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name");
+
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "HR-Manager")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(LaborContractViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                byte[] imageData = null;
+                Picture picture = null;
+
+                if (model.Image != null)
+                {
+                    using (var binaryReader = new BinaryReader(model.Image.OpenReadStream()))
+                    {
+                        imageData = binaryReader.ReadBytes((int)model.Image.Length);
+                    }
+
+                    picture = new Picture { Image = imageData };
+                }
+
+                Employee employee = new Employee
+                {
+                    FirstName = model.FirstName,
+                    Surname = model.Surname,
+                    Patronymic = model.Patronymic,
+                    PassportID = model.PassportID,
+                    PhoneNumber = model.PhoneNumber,
+                    DOB = model.DOB,
+                    Picture = picture,
+                    DepartmentId = model.DepartmentId,
+                    PostId = model.PostId,
+                    Salary = model.Salary,
+                    IsDismissed = false
+                };
+
+                LaborСontract laborСontract = new LaborСontract
+                {
+                    Employee = employee,
+                    CompanyName = model.CompanyName,
+                    DateOfAdoption = model.DateOfAdoption,
+                    DateOfPreparation = model.DateOfPreparation,
+                    Salary = model.Salary,
+                    Base = model.Base,
+                    DepartmentId = model.DepartmentId,
+                    PostId = model.PostId,
+                    DateOfAction = DateTime.Now,
+                    HRManager = await _userManager.GetUserAsync(User)
+                };
+
+                await _context.LaborСontracts.AddAsync(laborСontract);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index", "Employees");
+            }
+
+            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "PostName");
+            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name");
+
+            return View(model);
+        }
+
+        [Authorize(Roles = "HR-Manager")]
         public async Task<IActionResult> Edit(int id)
         {
             var employee = await _context.Employees.FindAsync(id);
@@ -64,6 +139,7 @@ namespace HumanResourcesDepartment.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "HR-Manager")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EmployeeEditViewModel model)
         {
@@ -76,13 +152,14 @@ namespace HumanResourcesDepartment.Controllers
 
             if (ModelState.IsValid)
             {
-                var employee = await _context.Employees.Where(e => e.Id == id).FirstOrDefaultAsync();
+                var employee = await _context.Employees.FirstOrDefaultAsync(e => e.Id == id);
 
                 employee.PassportID = model.PassportID;
                 employee.Patronymic = model.Patronymic;
                 employee.Surname = model.Surname;
                 employee.FirstName = model.FirstName;
                 employee.DOB = model.DOB;
+                employee.PhoneNumber = model.PhoneNumber;
 
                 _context.Update(employee);
                 await _context.SaveChangesAsync();
@@ -93,6 +170,7 @@ namespace HumanResourcesDepartment.Controllers
             return PartialView(model);
         }
 
+        [Authorize(Roles = "HR-Manager")]
         public async Task<IActionResult> EmployeeDismissal(int id)
         {
             var employee = await _context.Employees.FindAsync(id);
@@ -104,6 +182,7 @@ namespace HumanResourcesDepartment.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "HR-Manager")]
         public async Task<IActionResult> EmployeeDismissal(Dismissal model)
         {
             if (ModelState.IsValid)
@@ -128,6 +207,7 @@ namespace HumanResourcesDepartment.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "HR-Manager")]
         public async Task<IActionResult> EmployeeTransfer(int id)
         {
             var employee = await _context.Employees.FindAsync(id);
@@ -142,6 +222,7 @@ namespace HumanResourcesDepartment.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "HR-Manager")]
         public async Task<IActionResult> EmployeeTransfer(EmployeeTransferViewModel model)
         {
             if (ModelState.IsValid)
@@ -163,16 +244,6 @@ namespace HumanResourcesDepartment.Controllers
                     NewPostId = model.NewPostId,
                     NewSalary = model.NewSalary,
                     Employee = employee,
-                    Departments = new List<Department>
-                    {
-                        employee.Department,
-                        await _context.Departments.FirstOrDefaultAsync(d => d.Id == model.NewDepartmentId)
-                    },
-                    Posts = new List<Post>
-                    {
-                        employee.Post,
-                        await _context.Posts.FirstOrDefaultAsync(p => p.Id == model.NewPostId)
-                    },
                     DateOfTransfer = model.DateOfTransfer,
                     DateOfAction = DateTime.Now,
                     HRManager = await _userManager.GetUserAsync(User)
@@ -195,6 +266,7 @@ namespace HumanResourcesDepartment.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "HR-Manager")]
         public async Task<IActionResult> EmployeeSickLeave(int id)
         {
             var employee = await _context.Employees.FindAsync(id);
@@ -206,11 +278,14 @@ namespace HumanResourcesDepartment.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "HR-Manager")]
         public async Task<IActionResult> EmployeeSickLeave(SickLeave model)
         {
             if (ModelState.IsValid)
             {
                 model.Id = 0;
+                model.HRManager = await _userManager.GetUserAsync(User);
+                model.DateOfAction = DateTime.Now;
                 await _context.SickLeaves.AddAsync(model);
                 await _context.SaveChangesAsync();
 
@@ -220,6 +295,7 @@ namespace HumanResourcesDepartment.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "HR-Manager")]
         public async Task<IActionResult> EmployeeVacation(int id)
         {
             var employee = await _context.Employees.FindAsync(id);
@@ -231,6 +307,7 @@ namespace HumanResourcesDepartment.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "HR-Manager")]
         public async Task<IActionResult> EmployeeVacation(Vacation model)
         {
             if (ModelState.IsValid)
@@ -247,6 +324,7 @@ namespace HumanResourcesDepartment.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "HR-Manager")]
         public async Task<IActionResult> EmployeeBusinessTrip(int id)
         {
             var employee = await _context.Employees.FindAsync(id);
@@ -258,6 +336,7 @@ namespace HumanResourcesDepartment.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "HR-Manager")]
         public async Task<IActionResult> EmployeeBusinessTrip(BusinessTrip model)
         {
             if (ModelState.IsValid)
@@ -275,6 +354,7 @@ namespace HumanResourcesDepartment.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "HR-Manager")]
         public async Task<IActionResult> Search(string searchString)
         {
             searchString = searchString?.ToLower() ?? "";
@@ -288,11 +368,6 @@ namespace HumanResourcesDepartment.Controllers
                 .ToListAsync();
 
             return PartialView("EmployeesList", employees);
-        }
-
-        private bool EmployeeExists(int id)
-        {
-            return _context.Employees.Any(e => e.Id == id);
         }
     }
 }

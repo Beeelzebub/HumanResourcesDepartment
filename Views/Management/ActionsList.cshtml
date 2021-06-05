@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<HumanResourcesDepartment.Models.Action>
 
-<table class="table table-bordered">
+<table class="table mt-4 bg-light table-hover table-bordered">
     <thead>
         <tr>
             <th>
@@ -31,13 +31,20 @@
                     @item.Employee.GetFullName()
                 </td>
                 <td>
-                    @item.GetDescription()
+                    @Html.Raw(item.GetDescription())
                 </td>
                 <td>
                     @item.DateOfAction
                 </td>
                 <td>
-                    @item.HRManager.GetFullName()
+                    @if (item.HRManager == null)
+                    {
+                        <span class="text-danger">Неизвестно</span>
+                    }
+                    else
+                    {
+                        @item.HRManager.GetFullName()
+                    }
                 </td>
             </tr>
         }

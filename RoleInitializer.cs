@@ -22,15 +22,12 @@ namespace HumanResourcesDepartment
             if (await userManager.FindByNameAsync("admin") == null)
             {
                 User admin = new User { UserName = "admin", FirstName = "Денис", Surname = "Мишота", Patronymic = "Денисович" };
-
                 IdentityResult result = await userManager.CreateAsync(admin, "admin");
 
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(admin, "admin");
                 }
-
-
             }
             if (await userManager.FindByNameAsync("hr") == null)
             {
@@ -46,4 +43,3 @@ namespace HumanResourcesDepartment
         }
     }
 }
-

@@ -14,24 +14,13 @@ namespace HumanResourcesDepartment.Models
                 "май", "июнь", "июль", "август",
                 "сентрябрь", "октябрь", "ноябрь", "декабрь" 
             };
-        public int Id { get; set; }
-        public int EmployeeId { get; set; }
-        public override Employee Employee { get; set; }
         public int NumberOfWorkingDays { get; set; }
         public int NumberOfWorkingHours { get; set; }
         public int NumberOfDaysOff { get; set; }
         public int Month { get; set; }
         public int Year { get; set; }
         public string InternalAttendanceMarks { get; set; }
-
-        [NotMapped]
-        public List<Vacation> Vacations { get; set; }
-
-        [NotMapped]
-        public List<BusinessTrip> BusinessTrips { get; set; }
-
-        [NotMapped]
-        public List<SickLeave> SickLeaves { get; set; }
+        private string[] SplitedAttendanceMarks;
 
         [NotMapped]
         public string[] AttendanceMarks
@@ -57,7 +46,6 @@ namespace HumanResourcesDepartment.Models
             }
         }
 
-        private string[] SplitedAttendanceMarks;
 
         public void CalculateAmount()
         {
@@ -78,29 +66,29 @@ namespace HumanResourcesDepartment.Models
             }
         }
 
-        public void SetGaps()
+        public void SetGaps(List<Vacation> vacations, List<BusinessTrip> businessTrips, List<SickLeave> sickLeaves)
         {
-            foreach (var item in Vacations)
+            foreach (var item in vacations)
                 SetMarksToAttendanceMarks(item.VacationStartDate, item.VacationEndDate, "ОТ");
 
-            foreach (var item in BusinessTrips)
+            foreach (var item in businessTrips)
                 SetMarksToAttendanceMarks(item.TripStartDate, item.TripEndDate, "К");
 
-            foreach (var item in SickLeaves)
+            foreach (var item in sickLeaves)
                 SetMarksToAttendanceMarks(item.SickLeaveStartDate, item.SickLeaveEndDate, "Б");
         }
 
-        private void SetMarksToAttendanceMarks(DateTime startDate, DateTime endDate, string mark)
+        private void SetMarksToAttendanceMarks(DateTime? startDate, DateTime? endDate, string mark)
         {
             DateTime lastDayOfMonth = new DateTime(Year, Month, DateTime.DaysInMonth(Year, Month));
             var attendanceMarks = AttendanceMarks;
 
             while ((startDate <= endDate) && (startDate <= lastDayOfMonth))
             {
-                if (startDate.Month == Month)
-                    attendanceMarks[startDate.Day - 1] = mark;
+                if (startDate?.Month == Month)
+                    attendanceMarks[(int)startDate?.Day - 1] = mark;
 
-                startDate = startDate.AddDays(1);
+                startDate = startDate?.AddDays(1);
             }
 
             AttendanceMarks = attendanceMarks;
@@ -109,13 +97,7 @@ namespace HumanResourcesDepartment.Models
         public string GetDateString() => MonthName[Month - 1] + " " + Year;
         public override string GetActionName() => "Изменение табеля рабочего времени";
         public override string GetDescription() => 
-            "Период: " + GetDateString();
+            "<strong>Период: </strong>" + GetDateString();
 
-        public TimeSheet()
-        {
-            Vacations = new List<Vacation>();
-            BusinessTrips = new List<BusinessTrip>();
-            SickLeaves = new List<SickLeave>();
-        }
     }
 }

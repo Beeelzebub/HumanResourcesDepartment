@@ -1,0 +1,54 @@
+﻿@model HumanResourcesDepartment.ViewModels.Users.EditUserViewModel
+
+<form asp-action="Edit" asp-controller="Users">
+    <div class="mb-5 mt-5 row justify-content-center">
+        <h1 class="text-center">Редактирование пользователя</h1>
+    </div>
+    <hr />
+    <div class="row justify-content-center">
+        <div class="col-3">
+            <div class="form-group">
+                <input type="hidden" asp-for="Id" />
+            </div>
+            <div class="form-group">
+                <label class="control-label"> Имя </label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label"> Фамилия </label>
+                <input asp-for="Surname" class="form-control" />
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label"> Фамилия </label>
+                <input asp-for="Patronymic" class="form-control" />
+                <span asp-validation-for="Patronymic" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label"> Роль </label>
+                <select asp-for="Role" class="form-control" asp-items="ViewBag.Roles"></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label"> Логин </label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label"> Пароль </label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="mt-5 col-2">
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-block btn-outline-primary" />
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <a asp-action="Index">Отмена</a>
+    </div>
+</form>

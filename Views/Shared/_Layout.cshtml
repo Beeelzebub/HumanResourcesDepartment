@@ -20,18 +20,35 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Management" asp-action="Index">Меню</a>
                         </li>
                     </ul>
                 </div>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @if (User.IsInRole("HR-Manager"))
+                            {
+                                <li class="navbar-item">
+                                    <span><i class="fa fa-user"></i><strong> @User.Identity.Name (кадровик) </strong></span>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="navbar-item">
+                                    <span><i class="fa fa-user"></i><strong> @User.Identity.Name (администратор) </strong></span>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
             </div>
         </nav>
     </header>
-    <div class="container-fluid">
-        <main role="main" class="pb-3">
+    <div class="container-fluid h-100">
+        <main role="main" class="pb-3 h-100">
             @RenderBody()
         </main>
     </div>
@@ -53,7 +70,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - HumanResourcesDepartment - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; Денис Мишота - Диплом 2021
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

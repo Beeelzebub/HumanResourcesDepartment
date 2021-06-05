@@ -1,7 +1,6 @@
 ﻿@model TimeSheet
 
-<h1>Табель рабочего времени за @Model.GetDateString()</h1>
-<div class="w-100">
+<div class="w-100 mt-5">
     <form id="attendanceMarksForm">
         <input name="EmployeeId" value="@Model.EmployeeId" type="hidden" />
         <input name="Month" value="@Model.Month" type="hidden" />
@@ -25,27 +24,29 @@
                 <tr>
                     @for (int i = 0; i < 31; i++)
                     {
-                    <td class="m-0 p-0">
-                        @if (i >= Model.AttendanceMarks.Length)
-                        {
-                            <input class="form-control table-input" value="-" disabled />
-                        }
-                        else if (Model.AttendanceMarks[i] == "К" ||
-                                 Model.AttendanceMarks[i] == "ОТ" ||
-                                 Model.AttendanceMarks[i] == "Б")
-                        {
-                            <input name="AttendanceMarks" value="@Model.AttendanceMarks[i]" type="hidden" />
-                            <input class="form-control table-input" value="@Model.AttendanceMarks[i]" disabled />
-                        }
-                        else
-                        {
-                            <input type="number" max="24" min="0" class="form-control table-input" name="AttendanceMarks" value="@Model.AttendanceMarks[i]" />
-                        }
-                    </td>
+                        <td class="m-0 p-0">
+                            @if (i >= Model.AttendanceMarks.Length)
+                            {
+                                <input class="form-control table-input" value="-" disabled />
+                            }
+                            else if (Model.AttendanceMarks[i] == "К" ||
+                                     Model.AttendanceMarks[i] == "ОТ" ||
+                                     Model.AttendanceMarks[i] == "Б")
+                            {
+                                <input name="AttendanceMarks" value="@Model.AttendanceMarks[i]" type="hidden" />
+                                <input class="form-control table-input" value="@Model.AttendanceMarks[i]" disabled />
+                            }
+                            else
+                            {
+                                <input type="number" max="24" min="0" class="form-control table-input" name="AttendanceMarks" value="@Model.AttendanceMarks[i]" />
+                            }
+                        </td>
                     }
                 </tr>
             </tbody>
         </table>
-        <input onclick="saveTimeSheet()" type="button" class="btn" value="Сохранить" />
+        <div class="row justify-content-center">
+            <input onclick="saveTimeSheet()" type="button" class="btn btn-outline-success" value="Сохранить" />
+        </div>
     </form>
 </div>
