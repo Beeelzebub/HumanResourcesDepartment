@@ -10,7 +10,7 @@ namespace HumanResourcesDepartment.Models
     {
         //[NotMapped]
         //public Employee Employee { get; set; }
-        public string CompanyName { get; set; }
+        public string InstitutionName { get; set; }
         public DateTime? DateOfPreparation { get; set; }
         public DateTime? DateOfAdoption { get; set; }
         public int PostId { get; set; }
@@ -22,7 +22,7 @@ namespace HumanResourcesDepartment.Models
 
         public override string GetActionName() => "Заключение трудового договора";
         public override string GetDescription() =>
-            "<strong>Название компании: </strong>" + CompanyName +
+            "<strong>Название учреждения: </strong>" + InstitutionName +
             "<br /><strong>Отдел: </strong>" + Department.Name +
             "<br /><strong>Должность: </strong>" + Post.PostName +
             "<br /><strong>Оклад: </strong>" + Salary + "бр." +

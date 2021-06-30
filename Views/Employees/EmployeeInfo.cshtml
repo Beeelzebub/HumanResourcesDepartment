@@ -6,44 +6,48 @@
 }
 else
 {
-    <div class="col-4">
-        <div class="mt-2 mb-5 row justify-content-center">
-            <img height="350" width="350" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Picture.Image))" alt="" />
-        </div>
-        @if (!Model.IsDismissed)
-        {
-            <div class="row justify-content-center m-3">
-                <div class="col-10">
-                    <a asp-action="EmployeeBusinessTrip" asp-route-id="@Model.Id" class="btn btn-outline-primary btn-block">Командировка</a>
-                </div>
-            </div>
-            <div class="row justify-content-center m-3">
-                <div class="col-10">
-                    <a asp-action="EmployeeVacation" asp-route-id="@Model.Id" class="btn btn-outline-primary btn-block">Отпуск</a>
-                </div>
-            </div>
-            <div class="row justify-content-center m-3">
-                <div class="col-10">
-                    <a asp-action="EmployeeSickLeave" asp-route-id="@Model.Id" class="btn btn-outline-primary btn-block">Больничный</a>
-                </div>
-            </div>
-            <div class="row justify-content-center m-3">
-                <div class="col-10">
-                    <a asp-action="EmployeeTransfer" asp-route-id="@Model.Id" class="btn btn-outline-primary btn-block">Перевод</a>
-                </div>
-            </div>
-            <div class="row justify-content-center m-3">
-                <div class="col-10">
-                    <a asp-controller="TimeSheets" asp-action="EmployeeTimeSheet" asp-route-id="@Model.Id" class="btn btn-outline-primary btn-block">Табель рабочего времени</a>
-                </div>
-            </div>
-            <div class="row justify-content-center m-3">
-                <div class="col-10">
-                    <a asp-action="EmployeeDismissal" asp-route-id="@Model.Id" class="btn btn-outline-danger btn-block">Увольнение</a>
-                </div>
-            </div>
-        }
+<div class="col-4">
+    <div class="mt-2 mb-5 row justify-content-center">
+        <img style="width:100%" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Picture.Image))" alt="" />
     </div>
+    @if (!Model.IsDismissed)
+    {
+        <div class="row justify-content-center mb-3 mt-3">
+            <div class="col-12">
+                <a asp-action="EmployeeBusinessTrip" asp-route-id="@Model.Id" class="btn btn-outline-primary btn-block">Командировка</a>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3 mt-3">
+            <div class="col-12">
+                <a asp-action="EmployeeVacation" asp-route-id="@Model.Id" class="btn btn-outline-primary btn-block">Отпуск</a>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3 mt-3">
+            <div class="col-12">
+                <a asp-action="EmployeeSickLeave" asp-route-id="@Model.Id" class="btn btn-outline-primary btn-block">Больничный</a>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3 mt-3">
+            <div class="col-12">
+                <a asp-action="EmployeeTransfer" asp-route-id="@Model.Id" class="btn btn-outline-primary btn-block">Перевод</a>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3 mt-3">
+            <div class="col-12">
+                <a asp-controller="TimeSheets" asp-action="EmployeeTimeSheet" asp-route-id="@Model.Id" class="btn btn-outline-primary btn-block">Табель рабочего времени</a>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3 mt-3">
+            <div class="col-12">
+                <a asp-action="EmployeeDismissal" asp-route-id="@Model.Id" class="btn btn-outline-danger btn-block">Увольнение</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h1 class="text-center text-danger">@ViewData["DismissalDate"]</h1>
+    }
+</div>
     <div class="col-5">
         <div id="personalInfoBlock">
             <h1>Личные данные <button title="Редактировать" onclick="EmployeeEdit(@Model.Id)" class="btn btn-link"><i class="fa fa-lg fa-pencil"></i></button></h1>
@@ -90,11 +94,7 @@ else
                 </div>
             </div>
         </div>
-        @if (Model.IsDismissed)
-        {
-            <h1 class="text-danger">Уволен</h1>
-        }
-        else
+        @if (!Model.IsDismissed)
         {
             <h1>Профессиональные данные</h1>
             <hr />

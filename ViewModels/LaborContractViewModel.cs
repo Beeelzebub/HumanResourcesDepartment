@@ -38,9 +38,9 @@ namespace HumanResourcesDepartment.ViewModels
         [Required(ErrorMessage = "Поле должно быть заполнено")]
         public DateTime DOB { get; set; }
 
-        [Display(Name = "Название компании")]
+        [Display(Name = "Название учреждения")]
         [Required(ErrorMessage = "Поле должно быть заполнено")]
-        public string CompanyName { get; set; }
+        public string InstitutionName { get; set; }
 
         [Display(Name = "Отдел")]
         [Required(ErrorMessage = "Поле должно быть заполнено")]

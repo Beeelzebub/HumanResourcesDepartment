@@ -12,7 +12,6 @@ namespace HumanResourcesDepartment.ViewModels.Users
         public string Id { get; set; }
 
         [DataType(DataType.Password)]
-        [Required(ErrorMessage = "Поле должно быть заполнено")]
         [Display(Name = "Новый пароль")]
         public string Password { get; set; }
     }

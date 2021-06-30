@@ -42,6 +42,10 @@ namespace HumanResourcesDepartment.Controllers
                 .Where(e => e.Id == id)
                 .FirstOrDefaultAsync();
 
+            if (employee.IsDismissed)
+                ViewData["DismissalDate"] = "Уволен с " +_context.Dismissals.FirstOrDefault(d => d.EmployeeId == employee.Id)
+                                                            .DateOfDismissal?.ToShortDateString();
+
             return PartialView("EmployeeInfo", employee);
         }
 
@@ -92,7 +96,7 @@ namespace HumanResourcesDepartment.Controllers
                 LaborСontract laborСontract = new LaborСontract
                 {
                     Employee = employee,
-                    CompanyName = model.CompanyName,
+                    InstitutionName = model.InstitutionName,
                     DateOfAdoption = model.DateOfAdoption,
                     DateOfPreparation = model.DateOfPreparation,
                     Salary = model.Salary,
@@ -355,7 +359,7 @@ namespace HumanResourcesDepartment.Controllers
         }
 
         [Authorize(Roles = "HR-Manager")]
-        public async Task<IActionResult> Search(string searchString)
+        public async Task<IActionResult> Search(string searchString, bool showDismissed)
         {
             searchString = searchString?.ToLower() ?? "";
 
@@ -366,6 +370,9 @@ namespace HumanResourcesDepartment.Controllers
                     || e.Department.Name.ToLower().Contains(searchString)
                     || e.Post.PostName.ToLower().Contains(searchString))
                 .ToListAsync();
+
+            if (!showDismissed)
+                employees = employees.Where(e => !e.IsDismissed).ToList();
 
             return PartialView("EmployeesList", employees);
         }

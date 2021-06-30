@@ -19,9 +19,7 @@ function SendEditForm() {
 }
 
 function search() {
-    var searchInput = $('#searachString').val();
-
-    $('#employeesListBlock').load('/Employees/Search', { searchString: searchInput });
+    $('#employeesListBlock').load('/Employees/Search', $('#searchForm').serialize());
 }
 
 function dateOfTimeSheetChangeListener() {
